@@ -1,10 +1,11 @@
 import os
 import dotenv
 
-dotenv.load_dotenv()
-
 
 class Config:
+
+    dotenv.load_dotenv()
+
     def __init__(self):
         self.OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 

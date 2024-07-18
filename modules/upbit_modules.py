@@ -13,7 +13,7 @@ class UpbitModules:
     def __init__(self, ticker, config: Config):
         self.ticker = ticker
         self.upbit = pyupbit.Upbit(config.UPBIT_ACCESS_KEY, config.UPBIT_SECRET_KEY)
-        self.smtp = SMTPModule()
+        self.smtp = SMTPModule(config)
 
     def get_balances(self, ticker):
         balances = self.upbit.get_balances()

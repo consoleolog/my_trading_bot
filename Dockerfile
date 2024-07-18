@@ -1,7 +1,7 @@
 FROM python:3.11
 
 RUN apt-get update && \
-    apt install python3-poetry -y \
+    apt install python3-poetry -y
 
 RUN mkdir -p /app/src
 

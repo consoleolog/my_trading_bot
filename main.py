@@ -1,10 +1,5 @@
-import logging
-import time
-
-from _logging import set_loglevel
 from modules.upbit_modules import UpbitModules
 from modules.analyze_modules import AnalyzeModules
-from modules.scheduler import SafeScheduler
 from config import Config
 
 
@@ -26,20 +21,3 @@ def main(ticker):
         functions[current_stage](data['close'], data['sma20'], data['sma60'], data['sma120'])
 
 
-if __name__ == '__main__':
-    set_loglevel("D")
-
-    logger = logging.Logger("root")
-
-    logging.info("START TRADING BOT....")
-
-    ticker = "BTC"
-
-    main(ticker)
-
-    schedule = SafeScheduler(logger)
-    schedule.every(1).minutes.do(main, ticker)
-
-    while True:
-        schedule.run_pending()
-        time.sleep(1)

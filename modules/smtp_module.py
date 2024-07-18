@@ -3,11 +3,17 @@ from email.mime.text import MIMEText
 from email import encoders
 from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
-from config import *
+from config import Config
+import os
 
 
 class SMTPModule:
 
+    def __init__(self, config: Config):
+        self.NAVER_ID = config.NAVER_ID
+        self.NAVER_PASSWORD = config.NAVER_PASSWORD
+        self.SMTP_FROM = config.SMTP_FROM
+        self.SMTP_TO = config.SMTP_TO
 
     def write_email(self, subject, ticker, created, status, price, filepath: list, filename: list):
         return {
@@ -39,8 +45,8 @@ class SMTPModule:
     def send_email(self, inputs):
         msg = MIMEMultipart('alternative')
         msg['Subject'] = inputs["subject"]
-        msg['From'] = SMTP_FROM
-        msg['To'] = SMTP_TO
+        msg['From'] = self.SMTP_FROM
+        msg['To'] = self.SMTP_TO
         html_content = f"""
         {inputs['html']}
         """
@@ -60,6 +66,6 @@ class SMTPModule:
 
         s = smtplib.SMTP('smtp.naver.com', 587)
         s.starttls()  # TLS 보안 처리
-        s.login(NAVER_ID, NAVER_PASSWORD)
-        s.sendmail(SMTP_FROM, SMTP_TO, msg.as_string())
+        s.login(self.NAVER_ID, self.NAVER_PASSWORD)
+        s.sendmail(self.SMTP_FROM, self.SMTP_TO, msg.as_string())
         s.close()

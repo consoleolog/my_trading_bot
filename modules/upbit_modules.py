@@ -3,16 +3,16 @@ import logging
 import json
 
 from _logging import set_loglevel
-from config import *
+from config import Config
 from modules.smtp_module import SMTPModule
 
 
 class UpbitModules:
     set_loglevel("D")
 
-    def __init__(self, ticker):
+    def __init__(self, ticker, config: Config):
         self.ticker = ticker
-        self.upbit = pyupbit.Upbit(UPBIT_ACCESS_KEY, UPBIT_SECRET_KEY)
+        self.upbit = pyupbit.Upbit(config.UPBIT_ACCESS_KEY, config.UPBIT_SECRET_KEY)
         self.smtp = SMTPModule()
 
     def get_balances(self, ticker):
@@ -33,7 +33,7 @@ class UpbitModules:
                 if msg is None:
                     return "already_buy"
                 msg = json.loads(''.join(map(lambda x: '"' if x == "'" else x, msg)).strip())
-                inputs = self.smtp.write_email("업비트 매매 결과 보고", ticker, msg['created_at'],"매수", price)
+                inputs = self.smtp.write_email("업비트 매매 결과 보고", ticker, msg['created_at'], "매수", price)
                 self.smtp.send_email(inputs)
                 return msg
         except Exception as e:
@@ -66,4 +66,3 @@ class UpbitModules:
         except TypeError as type_error:
             logging.error(type_error)
             pass
-

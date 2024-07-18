@@ -38,3 +38,6 @@ jobs:
       - name: Docker image digest
         run: echo ${{ steps.build-and-push.outputs.digest }}
 
+      - name: Run Python file
+        run: python main.py
+

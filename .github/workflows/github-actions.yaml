@@ -32,7 +32,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/my_trading_bot:1  # 유효한 태그 형식 사용
+          tags: leopportunity5/my_trading_bot:1  # 유효한 태그 형식 사용
           file: ./Dockerfile
 
       - name: Docker image digest
